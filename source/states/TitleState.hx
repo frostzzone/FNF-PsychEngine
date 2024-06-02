@@ -179,6 +179,10 @@ class TitleState extends MusicBeatState
 	var danceLeft:Bool = false;
 	var titleText:FlxSprite;
 	var swagShader:ColorSwap = null;
+	var someData = {
+		logoBl: 0.0,
+		titleText: 0.0
+	};
 
 	function startIntro()
 	{
@@ -205,15 +209,26 @@ class TitleState extends MusicBeatState
 		// bg.updateHitbox();
 		add(bg);
 
-		logoBl = new FlxSprite(titleJSON.titlex, titleJSON.titley);
+		logoBl = new FlxSprite(0, 0);
 		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
+		logoBl.setGraphicSize(Std.int(logoBl.width * 2));
 		logoBl.antialiasing = ClientPrefs.data.antialiasing;
 
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, false);
 		logoBl.animation.play('bump');
 		logoBl.updateHitbox();
+		logoBl.screenCenter();
+
+		someData.logoBl = logoBl.y - 85;
+
+		logoBl.setPosition(logoBl.x, logoBl.y + 500);
+
 		// logoBl.screenCenter();
 		// logoBl.color = FlxColor.BLACK;
+
+		var bgGradient:FlxSprite = new FlxSprite();
+		bgGradient.antialiasing = ClientPrefs.data.antialiasing;
+		bgGradient.loadGraphic(Paths.image('titleGradientThing'));
 
 		if(ClientPrefs.data.shaders) swagShader = new ColorSwap();
 		gfDance = new FlxSprite(titleJSON.gfx, titleJSON.gfy);
@@ -249,15 +264,18 @@ class TitleState extends MusicBeatState
 				gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 		}
 
-		add(gfDance);
+		//add(gfDance);
 		add(logoBl);
+		add(bgGradient);
+
 		if(swagShader != null)
 		{
 			gfDance.shader = swagShader.shader;
 			logoBl.shader = swagShader.shader;
 		}
 
-		titleText = new FlxSprite(titleJSON.startx, titleJSON.starty);
+		//titleJSON.startx, titleJSON.starty
+		titleText = new FlxSprite();
 		titleText.frames = Paths.getSparrowAtlas('titleEnter');
 		var animFrames:Array<FlxFrame> = [];
 		@:privateAccess {
@@ -280,6 +298,12 @@ class TitleState extends MusicBeatState
 		
 		titleText.animation.play('idle');
 		titleText.updateHitbox();
+		titleText.screenCenter();
+
+		someData.titleText = titleText.y + 300;
+
+		titleText.setPosition(titleText.x, titleText.y + 500);
+
 		// titleText.screenCenter(X);
 		add(titleText);
 
@@ -288,8 +312,7 @@ class TitleState extends MusicBeatState
 		logo.screenCenter();
 		// add(logo);
 
-		// FlxTween.tween(logoBl, {y: logoBl.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG});
-		// FlxTween.tween(logo, {y: logoBl.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG, startDelay: 0.1});
+		//FlxTween.tween(logo, {y: logoBl.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG, startDelay: 0.1});
 
 		credGroup = new FlxGroup();
 		add(credGroup);
@@ -388,7 +411,7 @@ class TitleState extends MusicBeatState
 		{
 			if (newTitle && !pressedEnter)
 			{
-				var timer:Float = titleTimer;
+				/*var timer:Float = titleTimer;
 				if (timer >= 1)
 					timer = (-timer) + 2;
 				
@@ -396,13 +419,24 @@ class TitleState extends MusicBeatState
 				
 				titleText.color = FlxColor.interpolate(titleTextColors[0], titleTextColors[1], timer);
 				titleText.alpha = FlxMath.lerp(titleTextAlphas[0], titleTextAlphas[1], timer);
+				*/
+
+				FlxTween.tween(titleText, {y: someData.titleText}, 6, {ease: FlxEase.quartOut, startDelay: 0.25});
+				FlxTween.tween(logoBl, {y: someData.logoBl}, 6.5, {ease: FlxEase.quartOut, startDelay: 0.25});
+				// logoBl.setPosition(logoBl.x, logoBl.y - timer);
 			}
 			
 			if(pressedEnter)
 			{
 				titleText.color = FlxColor.WHITE;
 				titleText.alpha = 1;
-				
+
+				FlxTween.tween(titleText, {"scale.x": 1.1, "scale.y": 1.1}, 0.25, { ease: FlxEase.quartOut });
+				new FlxTimer().start(0.25, function(tmr:FlxTimer)
+					{
+						FlxTween.tween(titleText, {"scale.x": 1, "scale.y": 1}, 0.25, { ease: FlxEase.quartOut });
+					});
+
 				if(titleText != null) titleText.animation.play('press');
 
 				FlxG.camera.flash(ClientPrefs.data.flashing ? FlxColor.WHITE : 0x4CFFFFFF, 1);
@@ -411,7 +445,13 @@ class TitleState extends MusicBeatState
 				transitioning = true;
 				// FlxG.sound.music.stop();
 
-				new FlxTimer().start(1, function(tmr:FlxTimer)
+				new FlxTimer().start(0.5, function(tmr:FlxTimer)
+				{
+					FlxTween.tween(titleText, {y: someData.titleText + 800}, 8, {ease: FlxEase.quartOut});
+					FlxTween.tween(logoBl, {y: someData.logoBl + 800}, 8, {ease: FlxEase.quartOut});
+				});
+
+				new FlxTimer().start(1.5, function(tmr:FlxTimer)
 				{
 					if (mustUpdate) {
 						MusicBeatState.switchState(new OutdatedState());

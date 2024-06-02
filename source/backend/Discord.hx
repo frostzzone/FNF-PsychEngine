@@ -90,6 +90,7 @@ class DiscordClient
 		presence.largeImageKey = 'icon';
 		presence.largeImageText = "Engine Version: " + states.MainMenuState.psychEngineVersion;
 		presence.smallImageKey = smallImageKey;
+		presence.smallImageText = "17 guh Version: " + states.MainMenuState.guh17;
 		// Obtained times are in milliseconds so they are divided so Discord can use it
 		presence.startTimestamp = Std.int(startTimestamp / 1000);
 		presence.endTimestamp = Std.int(endTimestamp / 1000);
