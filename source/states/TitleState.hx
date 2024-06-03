@@ -184,6 +184,9 @@ class TitleState extends MusicBeatState
 		titleText: 0.0
 	};
 
+	private var titleTextTween:FlxTween = null;
+	private var logoBlTween:FlxTween = null;
+
 	function startIntro()
 	{
 		if (!initialized)
@@ -421,8 +424,10 @@ class TitleState extends MusicBeatState
 				titleText.alpha = FlxMath.lerp(titleTextAlphas[0], titleTextAlphas[1], timer);
 				*/
 
-				FlxTween.tween(titleText, {y: someData.titleText}, 6, {ease: FlxEase.quartOut, startDelay: 0.25});
-				FlxTween.tween(logoBl, {y: someData.logoBl}, 6.5, {ease: FlxEase.quartOut, startDelay: 0.25});
+				if (titleTextTween == null) {
+					titleTextTween = FlxTween.tween(titleText, {y: someData.titleText}, 6, {ease: FlxEase.quartOut, startDelay: 0.25});
+					logoBlTween = FlxTween.tween(logoBl, {y: someData.logoBl}, 6.5, {ease: FlxEase.quartOut, startDelay: 0.25});
+				}
 				// logoBl.setPosition(logoBl.x, logoBl.y - timer);
 			}
 			
@@ -430,6 +435,12 @@ class TitleState extends MusicBeatState
 			{
 				titleText.color = FlxColor.WHITE;
 				titleText.alpha = 1;
+
+				titleTextTween.cancel();
+				logoBlTween.cancel();
+
+				titleTextTween = null;
+				logoBlTween = null;
 
 				FlxTween.tween(titleText, {"scale.x": 1.1, "scale.y": 1.1}, 0.25, { ease: FlxEase.quartOut });
 				new FlxTimer().start(0.25, function(tmr:FlxTimer)

@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="menu_weeks.png"><SubTexture name="menu_weeks weeks white0000" x="0" y="189" width="526" height="188" frameX="0" frameY="0" frameWidth="526" frameHeight="188" />
+<SubTexture name="menu_weeks weeks basic0000" x="0" y="0" width="526" height="189" frameX="0" frameY="0" frameWidth="526" frameHeight="189" />
+</TextureAtlas>

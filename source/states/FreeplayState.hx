@@ -547,14 +547,18 @@ class FreeplayState extends MusicBeatState
 		var max:Int = Math.round(Math.max(0, Math.min(songs.length, lerpSelected + _drawDistance)));
 		for (i in min...max)
 		{
+			// Item is song text
 			var item:Alphabet = grpSongs.members[i];
 			item.visible = item.active = true;
-			item.x = ((item.targetY - lerpSelected) * item.distancePerItem.x) + item.startPosition.x;
+			item.x = ((item.targetY - lerpSelected) /* item.distancePerItem.x*/) + item.startPosition.x;
 			item.y = ((item.targetY - lerpSelected) * 1.3 * item.distancePerItem.y) + item.startPosition.y;
 
 			var icon:HealthIcon = iconArray[i];
 			icon.visible = icon.active = true;
 			_lastVisibles.push(i);
+
+			item.screenCenter(X);
+			item.x = item.x - (icon.width/4);
 		}
 	}
 

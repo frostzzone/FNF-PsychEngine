@@ -98,6 +98,7 @@ class MainMenuState extends MusicBeatState
 			if (optionShit.length < 6)
 				scr = 0;
 			menuItem.scrollFactor.set(0, scr);
+			menuItem.setGraphicSize(Std.int(menuItem.width * 0.5));
 			menuItem.updateHitbox();
 			menuItem.screenCenter(X);
 			menuItem.setPosition(textOffsets.fromLeft, menuItem.y);
@@ -105,7 +106,7 @@ class MainMenuState extends MusicBeatState
 		}
 
 		// Guh
-		var guhVer:FlxText = new FlxText(12, FlxG.height - 64, 0, "17guh v " + guh17, 12);
+		var guhVer:FlxText = new FlxText(12, FlxG.height - 64, 0, "17guh v" + guh17, 12);
 		guhVer.scrollFactor.set();
 		guhVer.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(guhVer);
@@ -241,11 +242,15 @@ class MainMenuState extends MusicBeatState
 		FlxG.sound.play(Paths.sound('scrollMenu'));
 		menuItems.members[curSelected].animation.play('idle');
 		menuItems.members[curSelected].updateHitbox();
-		menuItems.members[curSelected].screenCenter(X);
+		//menuItems.members[curSelected].screenCenter(X);
 
-		menuItems.members[curSelected].setPosition(textOffsets.fromLeft, menuItems.members[curSelected].y);
+		FlxTween.tween(menuItems.members[curSelected], {x: textOffsets.fromLeft, y: menuItems.members[curSelected].y}, 0.5, {ease: FlxEase.quartOut});
+
+		//menuItems.members[curSelected].setPosition(textOffsets.fromLeft, menuItems.members[curSelected].y);
 
 		curSelected += huh;
+
+		// hi my name is carmen winstead im 17 years old im very similiar to you did i mention that im dead a few years ago a group of girls pushed me down a sewer hole
 
 		if (curSelected >= menuItems.length)
 			curSelected = 0;
@@ -254,9 +259,11 @@ class MainMenuState extends MusicBeatState
 
 		menuItems.members[curSelected].animation.play('selected');
 		menuItems.members[curSelected].centerOffsets();
-		menuItems.members[curSelected].screenCenter(X);
+		//menuItems.members[curSelected].screenCenter(X);
 
-		menuItems.members[curSelected].setPosition(textOffsets.fromLeft + textOffsets.selectedExtra, menuItems.members[curSelected].y);
+		FlxTween.tween(menuItems.members[curSelected], {x: textOffsets.fromLeft + textOffsets.selectedExtra, y: menuItems.members[curSelected].y}, 0.5, {ease: FlxEase.quartOut});
+
+		//menuItems.members[curSelected].setPosition(textOffsets.fromLeft + textOffsets.selectedExtra, menuItems.members[curSelected].y);
 
 		camFollow.setPosition(menuItems.members[curSelected].getGraphicMidpoint().x,
 			menuItems.members[curSelected].getGraphicMidpoint().y - (menuItems.length > 4 ? menuItems.length * 8 : 0));
