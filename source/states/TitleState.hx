@@ -46,6 +46,8 @@ class TitleState extends MusicBeatState
 	var credTextShit:Alphabet;
 	var textGroup:FlxGroup;
 	var ngSpr:FlxSprite;
+
+	var curPlaying = 'freaky';
 	
 	var titleTextColors:Array<FlxColor> = [0xFF33FFFF, 0xFF3333CC];
 	var titleTextAlphas:Array<Float> = [1, .64];
@@ -56,7 +58,7 @@ class TitleState extends MusicBeatState
 
 	#if TITLE_SCREEN_EASTER_EGG
 	var easterEggKeys:Array<String> = [
-		'SHADOW', 'RIVER', 'BBPANZU'
+		'FSH', 'RESET'//'SHADOW', 'RIVER', 'BBPANZU'
 	];
 	var allowedKeys:String = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	var easterEggKeysBuffer:String = '';
@@ -192,7 +194,15 @@ class TitleState extends MusicBeatState
 		if (!initialized)
 		{
 			if(FlxG.sound.music == null) {
-				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+				switch(FlxG.save.data.psychDevsEasterEgg.toUpperCase())
+				{
+					case 'FSH':
+						curPlaying = 'funkyIntro';
+						FlxG.sound.playMusic(Paths.music('funkyTown'), 0);
+					default:
+						curPlaying = 'freaky';
+						FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+				}
 			}
 		}
 
@@ -222,7 +232,7 @@ class TitleState extends MusicBeatState
 		logoBl.updateHitbox();
 		logoBl.screenCenter();
 
-		someData.logoBl = logoBl.y - 85;
+		someData.logoBl = logoBl.y; //- 85;
 
 		logoBl.setPosition(logoBl.x, logoBl.y + 500);
 
@@ -425,8 +435,8 @@ class TitleState extends MusicBeatState
 				*/
 
 				if (titleTextTween == null) {
-					titleTextTween = FlxTween.tween(titleText, {y: someData.titleText}, 6, {ease: FlxEase.quartOut, startDelay: 0.25});
-					logoBlTween = FlxTween.tween(logoBl, {y: someData.logoBl}, 6.5, {ease: FlxEase.quartOut, startDelay: 0.25});
+					titleTextTween = FlxTween.tween(titleText, {y: someData.titleText}, 4, {ease: FlxEase.quartOut, startDelay: 0.25});
+					logoBlTween = FlxTween.tween(logoBl, {y: someData.logoBl}, 4.5, {ease: FlxEase.quartOut, startDelay: 0.25});
 				}
 				// logoBl.setPosition(logoBl.x, logoBl.y - timer);
 			}
@@ -435,12 +445,6 @@ class TitleState extends MusicBeatState
 			{
 				titleText.color = FlxColor.WHITE;
 				titleText.alpha = 1;
-
-				titleTextTween.cancel();
-				logoBlTween.cancel();
-
-				titleTextTween = null;
-				logoBlTween = null;
 
 				FlxTween.tween(titleText, {"scale.x": 1.1, "scale.y": 1.1}, 0.25, { ease: FlxEase.quartOut });
 				new FlxTimer().start(0.25, function(tmr:FlxTimer)
@@ -458,12 +462,28 @@ class TitleState extends MusicBeatState
 
 				new FlxTimer().start(0.5, function(tmr:FlxTimer)
 				{
-					FlxTween.tween(titleText, {y: someData.titleText + 800}, 8, {ease: FlxEase.quartOut});
-					FlxTween.tween(logoBl, {y: someData.logoBl + 800}, 8, {ease: FlxEase.quartOut});
+					titleTextTween.cancel();
+					logoBlTween.cancel();
+
+					titleTextTween = null;
+					logoBlTween = null;
+
+					FlxTween.tween(titleText, {y: someData.titleText + 800}, 2, {ease: FlxEase.quartIn});
+					FlxTween.tween(logoBl, {y: someData.logoBl - 800}, 2, {ease: FlxEase.quartIn});
 				});
+
+				if(curPlaying != 'freaky'){
+					FlxG.sound.music.fadeOut(4, 0);
+				}
 
 				new FlxTimer().start(1.5, function(tmr:FlxTimer)
 				{
+					if(curPlaying != 'freaky'){
+						curPlaying = 'freaky';
+						FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+						FlxG.sound.music.fadeIn(4, 0, 0.7);
+					}
+
 					if (mustUpdate) {
 						MusicBeatState.switchState(new OutdatedState());
 					} else {
@@ -596,8 +616,17 @@ class TitleState extends MusicBeatState
 			{
 				case 1:
 					//FlxG.sound.music.stop();
-					FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+					switch(FlxG.save.data.psychDevsEasterEgg.toUpperCase())
+					{
+						case 'FSH':
+							curPlaying = 'funky';
+							FlxG.sound.playMusic(Paths.music('funkyTown'), 0);
+						default:
+							curPlaying = 'freaky';
+							FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+					}
 					FlxG.sound.music.fadeIn(4, 0, 0.7);
+					sickBeats = 16;
 				case 2:
 					#if PSYCH_WATERMARKS
 					createCoolText(['Psych Engine by'], 40);
@@ -665,20 +694,32 @@ class TitleState extends MusicBeatState
 						FlxG.sound.play(Paths.sound('JingleShadow'));
 					case 'BBPANZU':
 						sound = FlxG.sound.play(Paths.sound('JingleBB'));
-
+					// case 'FSH':
+					// 	sound =  FlxG.sound.play(Paths.sound('funkyTown'));
 					default: //Go back to normal ugly ass boring GF
+						curPlaying = 'freaky';
 						remove(ngSpr);
 						remove(credGroup);
 						FlxG.camera.flash(FlxColor.WHITE, 2);
 						skippedIntro = true;
 						playJingle = false;
 
-						FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
-						FlxG.sound.music.fadeIn(4, 0, 0.7);
+						if (easteregg == 'FSH')
+						{
+							curPlaying = 'funky';
+							FlxG.sound.playMusic(Paths.music('funkyTown'), 0);
+							FlxG.sound.music.fadeIn(4, 0, 0.7);
+						}
+						else
+						{
+							FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+							FlxG.sound.music.fadeIn(4, 0, 0.7);
+						}
 						return;
 				}
 
 				transitioning = true;
+
 				if(easteregg == 'SHADOW')
 				{
 					new FlxTimer().start(3.2, function(tmr:FlxTimer)
@@ -688,9 +729,20 @@ class TitleState extends MusicBeatState
 						FlxG.camera.flash(FlxColor.WHITE, 0.6);
 						transitioning = false;
 					});
+				} 
+				else if(easteregg == 'FSH')
+				{
+					new FlxTimer().start(3.2, function(tmr:FlxTimer)
+					{
+						FlxG.camera.flash(FlxColor.WHITE, 3);
+						FlxG.sound.playMusic(Paths.music('funkyTown'), 0);
+						FlxG.sound.music.fadeIn(4, 0, 0.7);
+						transitioning = false;
+					});
 				}
 				else
 				{
+					curPlaying = 'freaky';
 					remove(ngSpr);
 					remove(credGroup);
 					FlxG.camera.flash(FlxColor.WHITE, 3);
@@ -704,6 +756,8 @@ class TitleState extends MusicBeatState
 			}
 			else //Default! Edit this one!!
 			{
+
+				curPlaying = 'freaky';
 				remove(ngSpr);
 				remove(credGroup);
 				FlxG.camera.flash(FlxColor.WHITE, 4);
@@ -718,6 +772,13 @@ class TitleState extends MusicBeatState
 					if(FreeplayState.vocals != null)
 					{
 						FreeplayState.vocals.fadeOut();
+					}
+				} else if(easteregg == 'FSH')
+				{
+					if (curPlaying != 'funkyIntro' && curPlaying != 'funky'){
+						curPlaying = 'funky';
+						FlxG.sound.playMusic(Paths.music('funkyTown'), 0);
+						FlxG.sound.music.fadeIn(4, 0, 0.7);
 					}
 				}
 				#end

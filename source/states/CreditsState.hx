@@ -39,6 +39,19 @@ class CreditsState extends MusicBeatState
 		#end
 
 		var defaultList:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
+			['I took this from aisle #0'],
+			['Sigma Mod Team'],
+			['Silas/Sylvia',		'silas',			'Musician, Artist and Director',					 		 'https://twitter.com/epicalsilas',		'00BAFF'],
+			['Lizzy',				'lizzy',			'Musician, Artist, and Co-Director',						 'https://www.youtube.com/@lzy2',		'FF85D2'],
+			['Zeko',				'zeko',				'Artist, Charter',											 '',									'A249FF'],
+			['Frostzzone',			'frostzzone',		'Main Mod Programmer',										 'https://frost.fsh.plus',				'0074ff'],
+			[''],
+			['Special Appearances'],
+			['Alex', 				'alex',				'In the BG',												 'https://twitter.com/alexrealeyee',	'C6FF3B'],
+			['Cookieboi',			'cookie',			'In the BG',												 'https://twitter.com/Cookieboi88080',	'23FF00'],
+			['Sleepy',				'sleepy',			'In the BG',												 'https://twitter.com/sleepyarcade7k',	'6A3FFF'],
+			['Unipyro',				'pyro',				'In the BG',												 'https://twitter.com/Unipyr',			'1BAA11'],
+			[''],
 			['Psych Engine Team'],
 			['Shadow Mario',		'shadowmario',		'Main Programmer and Head of Psych Engine',					 'https://ko-fi.com/shadowmario',		'444444'],
 			['Riveren',				'riveren',			'Main Artist/Animator of Psych Engine',						 'https://twitter.com/riverennn',		'14967B'],

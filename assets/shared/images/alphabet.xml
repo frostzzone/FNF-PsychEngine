@@ -11,6 +11,16 @@
 <SubTexture name="3 normal instance0000" x="176" y="73" width="35" height="73" frameX="0" frameY="0" frameWidth="35" frameHeight="73" />
 <SubTexture name="2 normal instance0000" x="139" y="79" width="35" height="73" frameX="0" frameY="0" frameWidth="35" frameHeight="73" />
 <SubTexture name="1 normal instance0000" x="214" y="0" width="17" height="73" frameX="0" frameY="0" frameWidth="17" frameHeight="73" />
+<SubTexture name="0 bold instance0000" x="106" y="0" width="36" height="73" frameX="0" frameY="0" frameWidth="36" frameHeight="73" />
+<SubTexture name="9 bold instance0000" x="142" y="0" width="34" height="73" frameX="0" frameY="0" frameWidth="34" frameHeight="73" />
+<SubTexture name="8 bold instance0000" x="0" y="79" width="35" height="73" frameX="0" frameY="0" frameWidth="35" frameHeight="73" />
+<SubTexture name="7 bold instance0000" x="35" y="79" width="35" height="73" frameX="0" frameY="0" frameWidth="35" frameHeight="73" />
+<SubTexture name="6 bold instance0000" x="70" y="79" width="35" height="73" frameX="0" frameY="0" frameWidth="35" frameHeight="73" />
+<SubTexture name="5 bold instance0000" x="105" y="79" width="34" height="73" frameX="0" frameY="0" frameWidth="34" frameHeight="73" />
+<SubTexture name="4 bold instance0000" x="176" y="0" width="38" height="73" frameX="0" frameY="0" frameWidth="38" frameHeight="73" />
+<SubTexture name="3 bold instance0000" x="176" y="73" width="35" height="73" frameX="0" frameY="0" frameWidth="35" frameHeight="73" />
+<SubTexture name="2 bold instance0000" x="139" y="79" width="35" height="73" frameX="0" frameY="0" frameWidth="35" frameHeight="73" />
+<SubTexture name="1 bold instance0000" x="214" y="0" width="17" height="73" frameX="0" frameY="0" frameWidth="17" frameHeight="73" />
 <SubTexture name="z uppercase instance0000" x="0" y="152" width="34" height="73" frameX="0" frameY="0" frameWidth="34" frameHeight="73" />
 <SubTexture name="y uppercase instance0000" x="34" y="152" width="38" height="73" frameX="0" frameY="0" frameWidth="38" frameHeight="73" />
 <SubTexture name="x uppercase instance0000" x="72" y="152" width="39" height="73" frameX="0" frameY="0" frameWidth="39" frameHeight="73" />
@@ -96,14 +106,20 @@
 <SubTexture name="n bold instance0000" x="339" y="0" width="36" height="73" frameX="0" frameY="0" frameWidth="36" frameHeight="73" />
 <SubTexture name="> bold instance0000" x="339" y="73" width="30" height="45" frameX="0" frameY="0" frameWidth="30" frameHeight="45" />
 <SubTexture name="< bold instance0000" x="339" y="118" width="30" height="44" frameX="0" frameY="0" frameWidth="30" frameHeight="44" />
-<SubTexture name=". normal instance0000" x="355" y="162" width="16" height="15" frameX="0" frameY="0" frameWidth="16" frameHeight="15" />
+<SubTexture name=". normal instance0000" x="355" y="190" width="16" height="15" frameX="0" frameY="0" frameWidth="16" frameHeight="15" />
 <SubTexture name=": bold instance0000" x="339" y="162" width="16" height="43" frameX="0" frameY="0" frameWidth="16" frameHeight="43" />
-<SubTexture name=". bold instance0000" x="355" y="162" width="16" height="15" frameX="0" frameY="0" frameWidth="16" frameHeight="15" />
+<SubTexture name=". bold instance0000" x="355" y="190" width="16" height="15" frameX="0" frameY="0" frameWidth="16" frameHeight="15" />
 <SubTexture name=": normal instance0000" x="339" y="162" width="16" height="43" frameX="0" frameY="0" frameWidth="16" frameHeight="43" />
 <SubTexture name="# bold instance0000" x="0" y="298" width="50" height="73" frameX="0" frameY="0" frameWidth="50" frameHeight="73" />
 <SubTexture name="# normal instance0000" x="0" y="298" width="50" height="73" frameX="0" frameY="0" frameWidth="50" frameHeight="73" />
 <SubTexture name="- normal instance0002" x="339" y="205" width="26" height="12" frameX="0" frameY="0" frameWidth="26" frameHeight="12" />
 <SubTexture name="- bold instance0000" x="339" y="205" width="26" height="12" frameX="0" frameY="0" frameWidth="26" frameHeight="12" />
-<SubTexture name="+ normal instance0000" x="50" y="298" width="38" height="35" frameX="0" frameY="0" frameWidth="38" frameHeight="35" />
-<SubTexture name="+ bold instance0000" x="50" y="298" width="38" height="35" frameX="0" frameY="0" frameWidth="38" frameHeight="35" />
+<SubTexture name="+ normal instance0000" x="92" y="298" width="38" height="35" frameX="0" frameY="0" frameWidth="38" frameHeight="35" />
+<SubTexture name="+ bold instance0000" x="92" y="298" width="38" height="35" frameX="0" frameY="0" frameWidth="38" frameHeight="35" />
+<SubTexture name="* bold instance0000" x="130" y="298" width="38" height="34" frameX="0" frameY="0" frameWidth="38" frameHeight="34" />
+<SubTexture name="* normal instance0000" x="130" y="298" width="38" height="34" frameX="0" frameY="0" frameWidth="38" frameHeight="34" />
+<SubTexture name="forward slash bold instance0000" x="50" y="298" width="42" height="73" frameX="0" frameY="0" frameWidth="42" frameHeight="73" />
+<SubTexture name="forward slash normal instance0000" x="50" y="298" width="42" height="73" frameX="0" frameY="0" frameWidth="42" frameHeight="73" />
+<SubTexture name="quote bold instance0000" x="355" y="162" width="16" height="28" frameX="0" frameY="0" frameWidth="16" frameHeight="28" />
+<SubTexture name="quote normal instance0000" x="355" y="162" width="16" height="28" frameX="0" frameY="0" frameWidth="16" frameHeight="28" />
 </TextureAtlas>

@@ -10,7 +10,7 @@ import options.OptionsState;
 class MainMenuState extends MusicBeatState
 {
 	public static var psychEngineVersion:String = '0.7.3'; // This is also used for Discord RPC
-	public static var guh17:String = '0.0.0 dev'; // This is also used for Discord RPC
+	public static var guh17:String = '0.0.1 dev'; // This is also used for Discord RPC
 	public static var curSelected:Int = 0;
 
 	var textOffsets = {
@@ -33,6 +33,9 @@ class MainMenuState extends MusicBeatState
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
 
+	var logoBl:FlxSprite;
+	var logoBlTween:FlxTween;
+
 	override function create()
 	{
 		#if MODS_ALLOWED
@@ -45,6 +48,8 @@ class MainMenuState extends MusicBeatState
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 
+		trace(FlxG.sound.music);
+
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
 
@@ -52,17 +57,37 @@ class MainMenuState extends MusicBeatState
 
 		var yScroll:Float = Math.max(0.25 - (0.05 * (optionShit.length - 4)), 0.1);
 
-		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menuBG'));
+		var bg:FlxSprite = new FlxSprite(-80, 10).loadGraphic(Paths.image('menuBG'));
 		bg.antialiasing = ClientPrefs.data.antialiasing;
-		bg.scrollFactor.set(0, 0);
+		bg.scrollFactor.set(0, yScroll);
 		bg.setGraphicSize(Std.int(bg.width * 1.175));
 		bg.updateHitbox();
 		bg.screenCenter();
 		add(bg);
 
+		logoBl = new FlxSprite();
+		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
+		logoBl.setGraphicSize(Std.int(logoBl.width * 1.5));
+		logoBl.antialiasing = ClientPrefs.data.antialiasing;
+		logoBl.scrollFactor.set(0, 0);
+		logoBl.updateHitbox();
+		logoBl.screenCenter();
+		logoBl.setPosition(logoBl.x + 175, logoBl.y - 50);
+		add(logoBl);
+
+		logoBlTween = FlxTween.tween(logoBl, {y: logoBl.y + 100}, 2, {ease: FlxEase.quadInOut, type: PINGPONG});
+
+		var bgGradientWhite:FlxSprite = new FlxSprite().loadGraphic(Paths.image('titleGradientThing'));
+		bgGradientWhite.antialiasing = ClientPrefs.data.antialiasing;
+		bgGradientWhite.scrollFactor.set(0, 0);
+		bgGradientWhite.setGraphicSize(Std.int(bg.width * 1.175));
+		bgGradientWhite.updateHitbox();
+		bgGradientWhite.screenCenter();
+		add(bgGradientWhite);
+
 		var bgGradient:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menuButtonsThing'));
 		bgGradient.antialiasing = ClientPrefs.data.antialiasing;
-		bgGradient.scrollFactor.set(0, 0);
+		bgGradient.scrollFactor.set(0, yScroll);
 		bgGradient.setGraphicSize(Std.int(bgGradient.width * 1.175));
 		bgGradient.updateHitbox();
 		bgGradient.screenCenter();
@@ -73,7 +98,7 @@ class MainMenuState extends MusicBeatState
 
 		magenta = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
 		magenta.antialiasing = ClientPrefs.data.antialiasing;
-		magenta.scrollFactor.set(0, 0);
+		magenta.scrollFactor.set(0, yScroll);
 		magenta.setGraphicSize(Std.int(magenta.width * 1.175));
 		magenta.updateHitbox();
 		magenta.screenCenter();
@@ -215,10 +240,12 @@ class MainMenuState extends MusicBeatState
 					{
 						if (i == curSelected)
 							continue;
-						FlxTween.tween(menuItems.members[i], {alpha: 0}, 0.4, {
+						FlxTween.tween(menuItems.members[i], {x: -100,alpha: 0}, 0.4, {
 							ease: FlxEase.quadOut,
 							onComplete: function(twn:FlxTween)
 							{
+								logoBlTween.cancel();
+								FlxTween.tween(logoBl, {y: -500}, 1, {ease: FlxEase.quartIn});
 								menuItems.members[i].kill();
 							}
 						});
@@ -237,6 +264,10 @@ class MainMenuState extends MusicBeatState
 		super.update(elapsed);
 	}
 
+	var data = {
+		tween: []
+	};
+
 	function changeItem(huh:Int = 0)
 	{
 		FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -244,7 +275,9 @@ class MainMenuState extends MusicBeatState
 		menuItems.members[curSelected].updateHitbox();
 		//menuItems.members[curSelected].screenCenter(X);
 
-		FlxTween.tween(menuItems.members[curSelected], {x: textOffsets.fromLeft, y: menuItems.members[curSelected].y}, 0.5, {ease: FlxEase.quartOut});
+		if(data.tween[curSelected] != null) data.tween[curSelected].cancel();
+		
+		data.tween[curSelected] = FlxTween.tween(menuItems.members[curSelected], {x: textOffsets.fromLeft, y: menuItems.members[curSelected].y}, 0.5, {ease: FlxEase.quartOut});
 
 		//menuItems.members[curSelected].setPosition(textOffsets.fromLeft, menuItems.members[curSelected].y);
 
@@ -257,11 +290,13 @@ class MainMenuState extends MusicBeatState
 		if (curSelected < 0)
 			curSelected = menuItems.length - 1;
 
+		if(data.tween[curSelected] != null) data.tween[curSelected].cancel();
+
 		menuItems.members[curSelected].animation.play('selected');
 		menuItems.members[curSelected].centerOffsets();
 		//menuItems.members[curSelected].screenCenter(X);
 
-		FlxTween.tween(menuItems.members[curSelected], {x: textOffsets.fromLeft + textOffsets.selectedExtra, y: menuItems.members[curSelected].y}, 0.5, {ease: FlxEase.quartOut});
+		data.tween[curSelected] = FlxTween.tween(menuItems.members[curSelected], {x: textOffsets.fromLeft + textOffsets.selectedExtra, y: menuItems.members[curSelected].y}, 0.5, {ease: FlxEase.quartOut});
 
 		//menuItems.members[curSelected].setPosition(textOffsets.fromLeft + textOffsets.selectedExtra, menuItems.members[curSelected].y);
 
